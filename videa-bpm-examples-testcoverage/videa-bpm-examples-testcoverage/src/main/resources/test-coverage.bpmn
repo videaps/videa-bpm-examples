@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.1">
+  <bpmn:collaboration id="Collaboration_0l95rnf">
+    <bpmn:participant id="Participant_175mv48" processRef="Process_TestCoverage" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_TestCoverage" name="Test Coverage" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="errorCode" label="Error Code" type="long" defaultValue="0" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_0a3g9xw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1c2q67y">
+      <bpmn:incoming>SequenceFlow_0pmdtl9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_OK</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_Failure</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="EndEvent_14jlf1h">
+      <bpmn:incoming>SequenceFlow_0oc8rld</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0a3g9xw" sourceRef="StartEvent_1" targetRef="Task_SetVariable" />
+    <bpmn:sequenceFlow id="SequenceFlow_0pmdtl9" sourceRef="Task_SetVariable" targetRef="ExclusiveGateway_1c2q67y" />
+    <bpmn:sequenceFlow id="SequenceFlow_OK" name="OK" sourceRef="ExclusiveGateway_1c2q67y" targetRef="Task_HappyPath">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${errorCode == 0}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_Failure" name="Failure" sourceRef="ExclusiveGateway_1c2q67y" targetRef="Task_ThrowError">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${errorCode != 0}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0oc8rld" sourceRef="Task_HappyPath" targetRef="EndEvent_14jlf1h" />
+    <bpmn:sequenceFlow id="SequenceFlow_1sjwsac" sourceRef="Task_ThrowError" targetRef="EndEvent_0sm9oil" />
+    <bpmn:scriptTask id="Task_SetVariable" name="Set Variable" scriptFormat="javascript">
+      <bpmn:incoming>SequenceFlow_0a3g9xw</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0pmdtl9</bpmn:outgoing>
+      <bpmn:script>errorCode = 0;</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Task_HappyPath" name="Walk Happy Path" scriptFormat="javascript">
+      <bpmn:incoming>SequenceFlow_OK</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0oc8rld</bpmn:outgoing>
+      <bpmn:script><![CDATA["Happy Path";]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Task_ThrowError" name="Throw Error" scriptFormat="javascript">
+      <bpmn:incoming>SequenceFlow_Failure</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1sjwsac</bpmn:outgoing>
+      <bpmn:script><![CDATA["Throw Error";]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="EndEvent_0sm9oil">
+      <bpmn:incoming>SequenceFlow_1sjwsac</bpmn:incoming>
+      <bpmn:errorEventDefinition errorRef="Error_080viy0" />
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmn:error id="Error_080viy0" name="Error_AnyError" errorCode="1000" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0l95rnf">
+      <bpmndi:BPMNShape id="Participant_175mv48_di" bpmnElement="Participant_175mv48">
+        <dc:Bounds x="122.5" y="60" width="707" height="274" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="146" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1c2q67y_di" bpmnElement="ExclusiveGateway_1c2q67y" isMarkerVisible="true">
+        <dc:Bounds x="455" y="95" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="480" y="149" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_14jlf1h_di" bpmnElement="EndEvent_14jlf1h">
+        <dc:Bounds x="774" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="792" y="142" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0a3g9xw_di" bpmnElement="SequenceFlow_0a3g9xw">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="291" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="250" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0pmdtl9_di" bpmnElement="SequenceFlow_0pmdtl9">
+        <di:waypoint xsi:type="dc:Point" x="391" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="455" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="423" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0cecpuw_di" bpmnElement="SequenceFlow_OK">
+        <di:waypoint xsi:type="dc:Point" x="505" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="585" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="537" y="99" width="16" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0craxre_di" bpmnElement="SequenceFlow_Failure">
+        <di:waypoint xsi:type="dc:Point" x="480" y="145" />
+        <di:waypoint xsi:type="dc:Point" x="480" y="274" />
+        <di:waypoint xsi:type="dc:Point" x="585" y="274" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="479" y="204" width="33" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0oc8rld_di" bpmnElement="SequenceFlow_0oc8rld">
+        <di:waypoint xsi:type="dc:Point" x="685" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="774" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="729.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1sjwsac_di" bpmnElement="SequenceFlow_1sjwsac">
+        <di:waypoint xsi:type="dc:Point" x="685" y="274" />
+        <di:waypoint xsi:type="dc:Point" x="774" y="274" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="729.5" y="253" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_11u3km5_di" bpmnElement="Task_SetVariable">
+        <dc:Bounds x="291" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_0aidm49_di" bpmnElement="Task_HappyPath">
+        <dc:Bounds x="585" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_08uizb5_di" bpmnElement="Task_ThrowError">
+        <dc:Bounds x="585" y="234" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_09zv4y6_di" bpmnElement="EndEvent_0sm9oil">
+        <dc:Bounds x="774" y="256" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="792" y="296" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
