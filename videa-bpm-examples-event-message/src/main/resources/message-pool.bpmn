@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.1">
+  <bpmn:collaboration id="Collaboration_MessagePool">
+    <bpmn:participant id="Participant_MessagePool" name="Message Pool" processRef="Process_MessagePool" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_MessagePool" name="Message Pool" isExecutable="true">
+    <bpmn:laneSet>
+      <bpmn:lane id="Lane_PutMessageToPool" name="Put Message To Pool">
+        <bpmn:flowNodeRef>EndEvent_1g4sb5b</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_PutMessageToPool</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_RemoveMessageFromPool" name="Remove Message From Pool">
+        <bpmn:flowNodeRef>EndEvent_19m6kxu</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_0qw6y9q</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_DecideUseCase" name="Decide Use Case">
+        <bpmn:flowNodeRef>StartEvent_107jyrr</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ExclusiveGateway_0cd0ypo</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:endEvent id="EndEvent_1g4sb5b">
+      <bpmn:incoming>SequenceFlow_0o9q9vh</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:scriptTask id="Task_PutMessageToPool" name="Put Message To Pool" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_0z62wsq</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o9q9vh</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Put Message To Pool";]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0o9q9vh" sourceRef="Task_PutMessageToPool" targetRef="EndEvent_1g4sb5b" />
+    <bpmn:endEvent id="EndEvent_19m6kxu">
+      <bpmn:incoming>SequenceFlow_0um5hpl</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0um5hpl" sourceRef="Task_0qw6y9q" targetRef="EndEvent_19m6kxu" />
+    <bpmn:scriptTask id="Task_0qw6y9q" name="Remove Message From Pool" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_RemoveMessageFromPool</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0um5hpl</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Remove Message From Pool"]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:startEvent id="StartEvent_107jyrr">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="useCase" label="Use Case" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>SequenceFlow_027cit6</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0cd0ypo">
+      <bpmn:incoming>SequenceFlow_027cit6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0z62wsq</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_RemoveMessageFromPool</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_027cit6" sourceRef="StartEvent_107jyrr" targetRef="ExclusiveGateway_0cd0ypo" />
+    <bpmn:sequenceFlow id="SequenceFlow_0z62wsq" name="Put Message To Pool" sourceRef="ExclusiveGateway_0cd0ypo" targetRef="Task_PutMessageToPool">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${useCase == "Put Message To Pool" }]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_RemoveMessageFromPool" name="Remove Message From Pool" sourceRef="ExclusiveGateway_0cd0ypo" targetRef="Task_0qw6y9q">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression"><![CDATA[${ useCase == "Remove Message From Pool" }]]></bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmn:message id="Message_0kcmbp6" name="Message_PutMessageToPool" />
+  <bpmn:message id="Message_1fwpo7q" name="Message_RemoveMessageFromPool" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_MessagePool">
+      <bpmndi:BPMNShape id="Participant_02mrgpj_di" bpmnElement="Participant_MessagePool">
+        <dc:Bounds x="123" y="-60" width="811" height="453" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_1g4sb5b_di" bpmnElement="EndEvent_1g4sb5b">
+        <dc:Bounds x="783" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="756" y="142" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0o9q9vh_di" bpmnElement="SequenceFlow_0o9q9vh">
+        <di:waypoint xsi:type="dc:Point" x="604" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="783" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="648.5" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_05a3pwr_di" bpmnElement="Task_PutMessageToPool">
+        <dc:Bounds x="504" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_0z0uucp_di" bpmnElement="Lane_PutMessageToPool">
+        <dc:Bounds x="153" y="60" width="781" height="154" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1s9w9bj_di" bpmnElement="Lane_RemoveMessageFromPool">
+        <dc:Bounds x="153" y="214" width="781" height="179" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_19m6kxu_di" bpmnElement="EndEvent_19m6kxu">
+        <dc:Bounds x="783" y="288" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="801" y="328" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0um5hpl_di" bpmnElement="SequenceFlow_0um5hpl">
+        <di:waypoint xsi:type="dc:Point" x="604" y="306" />
+        <di:waypoint xsi:type="dc:Point" x="694" y="306" />
+        <di:waypoint xsi:type="dc:Point" x="694" y="306" />
+        <di:waypoint xsi:type="dc:Point" x="783" y="306" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="709" y="300" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_1jc1xvm_di" bpmnElement="Task_0qw6y9q">
+        <dc:Bounds x="504" y="266" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_01fq3q2_di" bpmnElement="Lane_DecideUseCase">
+        <dc:Bounds x="153" y="-60" width="781" height="120" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_107jyrr_di" bpmnElement="StartEvent_107jyrr">
+        <dc:Bounds x="205" y="-22" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="223" y="18" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0cd0ypo_di" bpmnElement="ExclusiveGateway_0cd0ypo" isMarkerVisible="true">
+        <dc:Bounds x="360" y="-29" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="385" y="25" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_027cit6_di" bpmnElement="SequenceFlow_027cit6">
+        <di:waypoint xsi:type="dc:Point" x="241" y="-4" />
+        <di:waypoint xsi:type="dc:Point" x="360" y="-4" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="300.5" y="-25" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0z62wsq_di" bpmnElement="SequenceFlow_0z62wsq">
+        <di:waypoint xsi:type="dc:Point" x="410" y="-4" />
+        <di:waypoint xsi:type="dc:Point" x="467" y="-4" />
+        <di:waypoint xsi:type="dc:Point" x="467" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="504" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="424" y="-35" width="79" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_11bhoox_di" bpmnElement="SequenceFlow_RemoveMessageFromPool">
+        <di:waypoint xsi:type="dc:Point" x="385" y="21" />
+        <di:waypoint xsi:type="dc:Point" x="385" y="306" />
+        <di:waypoint xsi:type="dc:Point" x="504" y="306" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="293" y="28" width="89" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

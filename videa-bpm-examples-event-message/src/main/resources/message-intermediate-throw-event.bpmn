@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.1">
+  <bpmn:collaboration id="Collaboration_1atsh93">
+    <bpmn:participant id="Participant_CreateMessage" name="Create Message" processRef="Process_CreateMessage" />
+    <bpmn:participant id="Participant_MessagePoolCaller" name="Message Pool Caller" processRef="Process_MessagePoolCaller" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_CreateMessage" name="Create Message" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_CreateMessage" name="Create Message">
+      <bpmn:outgoing>SequenceFlow_0pmjrac</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0pmjrac" sourceRef="StartEvent_CreateMessage" targetRef="Task_1422v8f" />
+    <bpmn:sequenceFlow id="SequenceFlow_08wajyu" sourceRef="Task_1422v8f" targetRef="IntermediateThrowEvent_PutMessageToPool" />
+    <bpmn:scriptTask id="Task_1422v8f" name="Check Something" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_0pmjrac</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_08wajyu</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Check Something";]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1bt15qv" sourceRef="IntermediateThrowEvent_PutMessageToPool" targetRef="Task_LogSomething" />
+    <bpmn:intermediateThrowEvent id="IntermediateThrowEvent_PutMessageToPool" name="Put Message To Pool">
+      <bpmn:incoming>SequenceFlow_08wajyu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1bt15qv</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_0ojzs0h" camunda:expression="${valid}" camunda:resultVariable="valid" />
+    </bpmn:intermediateThrowEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1k7t75x" sourceRef="Task_LogSomething" targetRef="EndEvent_0ouwmvu" />
+    <bpmn:endEvent id="EndEvent_0ouwmvu">
+      <bpmn:incoming>SequenceFlow_1k7t75x</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:scriptTask id="Task_LogSomething" name="Log Something" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_1bt15qv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1k7t75x</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Log Something";
+println valid;]]></bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmn:message id="Message_0ojzs0h" name="Message_PutMessageToPool" />
+  <bpmn:process id="Process_MessagePoolCaller" name="Message Pool Caller" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_0um7h80">
+      <bpmn:outgoing>SequenceFlow_1dooztn</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_0ojzs0h" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1dooztn" sourceRef="StartEvent_0um7h80" targetRef="Task_1ynwzsp" />
+    <bpmn:sequenceFlow id="SequenceFlow_1lowh6a" sourceRef="Task_PutMessageToPool" targetRef="EndEvent_0h9dgum" />
+    <bpmn:endEvent id="EndEvent_0h9dgum">
+      <bpmn:incoming>SequenceFlow_1lowh6a</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:callActivity id="Task_PutMessageToPool" name="Put Message To Pool" calledElement="Lane_PutMessageToPool">
+      <bpmn:extensionElements>
+        <camunda:in source="Put Message To Pool" target="useCase" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_16p4xt0</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1lowh6a</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:sequenceFlow id="SequenceFlow_16p4xt0" sourceRef="Task_1ynwzsp" targetRef="Task_PutMessageToPool" />
+    <bpmn:scriptTask id="Task_1ynwzsp" name="Log Message Pool Caller" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_1dooztn</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_16p4xt0</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Log Message Pool Caller";]]></bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1atsh93">
+      <bpmndi:BPMNShape id="Participant_1ib0dor_di" bpmnElement="Participant_CreateMessage">
+        <dc:Bounds x="123" y="61" width="705" height="160" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_CreateMessage">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="152" y="138" width="81" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0pmjrac_di" bpmnElement="SequenceFlow_0pmjrac">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="285" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="247" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_0vqz3hr_di" bpmnElement="Task_1422v8f">
+        <dc:Bounds x="285" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_08wajyu_di" bpmnElement="SequenceFlow_08wajyu">
+        <di:waypoint xsi:type="dc:Point" x="385" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="457" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="421" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0ouwmvu_di" bpmnElement="EndEvent_0ouwmvu">
+        <dc:Bounds x="763" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="781" y="142" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bt15qv_di" bpmnElement="SequenceFlow_1bt15qv">
+        <di:waypoint xsi:type="dc:Point" x="493" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="584" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="538.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_1xuo7mv_di" bpmnElement="IntermediateThrowEvent_PutMessageToPool">
+        <dc:Bounds x="457" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="436" y="142" width="79" height="24" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1k7t75x_di" bpmnElement="SequenceFlow_1k7t75x">
+        <di:waypoint xsi:type="dc:Point" x="684" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="763" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="723.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_0e1onln_di" bpmnElement="Task_LogSomething">
+        <dc:Bounds x="584" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_00g5xj1_di" bpmnElement="Participant_MessagePoolCaller">
+        <dc:Bounds x="123" y="254" width="718" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1fee9kf_di" bpmnElement="StartEvent_0um7h80">
+        <dc:Bounds x="191" y="360" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="209" y="400" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1dooztn_di" bpmnElement="SequenceFlow_1dooztn">
+        <di:waypoint xsi:type="dc:Point" x="227" y="378" />
+        <di:waypoint xsi:type="dc:Point" x="314" y="378" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="270.5" y="357" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0h9dgum_di" bpmnElement="EndEvent_0h9dgum">
+        <dc:Bounds x="758" y="360" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="776" y="400" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1lowh6a_di" bpmnElement="SequenceFlow_1lowh6a">
+        <di:waypoint xsi:type="dc:Point" x="658" y="378" />
+        <di:waypoint xsi:type="dc:Point" x="758" y="378" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="708" y="357" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="CallActivity_0mkzz5a_di" bpmnElement="Task_PutMessageToPool">
+        <dc:Bounds x="558" y="338" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_16p4xt0_di" bpmnElement="SequenceFlow_16p4xt0">
+        <di:waypoint xsi:type="dc:Point" x="414" y="378" />
+        <di:waypoint xsi:type="dc:Point" x="558" y="378" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="486" y="357" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_0edniz0_di" bpmnElement="Task_1ynwzsp">
+        <dc:Bounds x="314" y="338" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
