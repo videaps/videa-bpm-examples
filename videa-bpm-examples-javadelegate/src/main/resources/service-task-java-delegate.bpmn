@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.1">
+  <bpmn:collaboration id="Collaboration_1b6ia1e">
+    <bpmn:participant id="Participant_ServiceTaskJavaDelegate" name="Service Task Java Delegate" processRef="Process_ServiceTaskJavaDelegate" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_ServiceTaskJavaDelegate" name="Service Task Java Delegate" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0h942dv</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0h942dv" sourceRef="StartEvent_1" targetRef="Task_PrintVariables" />
+    <bpmn:sequenceFlow id="SequenceFlow_1c34oxv" sourceRef="Task_PrintVariables" targetRef="Task_MapVariables" />
+    <bpmn:sequenceFlow id="SequenceFlow_0mhfy94" sourceRef="Task_MapVariables" targetRef="Task_CleanUpData" />
+    <bpmn:endEvent id="EndEvent_0zuemno">
+      <bpmn:incoming>SequenceFlow_1bn0bz2</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1bn0bz2" sourceRef="Task_CleanUpData" targetRef="EndEvent_0zuemno" />
+    <bpmn:scriptTask id="Task_PrintVariables" name="Print Variables" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_0h942dv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1c34oxv</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Print Variables";]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Task_CleanUpData" name="Clean Up Data" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_0mhfy94</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1bn0bz2</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Clean Up Data";]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:serviceTask id="Task_MapVariables" name="Map Variables" camunda:class="services.videa.bpm.examples.javadelegate.VariableMapperDelegate">
+      <bpmn:extensionElements>
+        <camunda:field name="firstName">        <camunda:expression>${ firstName }</camunda:expression>
+</camunda:field>
+        <camunda:field name="surName">        <camunda:expression>${ surName }</camunda:expression>
+</camunda:field>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1c34oxv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0mhfy94</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1b6ia1e">
+      <bpmndi:BPMNShape id="Participant_1w3up82_di" bpmnElement="Participant_ServiceTaskJavaDelegate">
+        <dc:Bounds x="123" y="32" width="866" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="146" y="136" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0h942dv_di" bpmnElement="SequenceFlow_0h942dv">
+        <di:waypoint xsi:type="dc:Point" x="209" y="118" />
+        <di:waypoint xsi:type="dc:Point" x="263" y="118" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="236" y="97" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1c34oxv_di" bpmnElement="SequenceFlow_1c34oxv">
+        <di:waypoint xsi:type="dc:Point" x="363" y="118" />
+        <di:waypoint xsi:type="dc:Point" x="479" y="118" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="421" y="97" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0mhfy94_di" bpmnElement="SequenceFlow_0mhfy94">
+        <di:waypoint xsi:type="dc:Point" x="579" y="118" />
+        <di:waypoint xsi:type="dc:Point" x="673" y="118" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="626" y="97" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0zuemno_di" bpmnElement="EndEvent_0zuemno">
+        <dc:Bounds x="853" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="871" y="140" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1bn0bz2_di" bpmnElement="SequenceFlow_1bn0bz2">
+        <di:waypoint xsi:type="dc:Point" x="773" y="118" />
+        <di:waypoint xsi:type="dc:Point" x="853" y="118" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="813" y="97" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_19vbxrp_di" bpmnElement="Task_PrintVariables">
+        <dc:Bounds x="263" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_0fd6l5i_di" bpmnElement="Task_CleanUpData">
+        <dc:Bounds x="673" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_1v9yegi_di" bpmnElement="Task_MapVariables">
+        <dc:Bounds x="479" y="78" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
