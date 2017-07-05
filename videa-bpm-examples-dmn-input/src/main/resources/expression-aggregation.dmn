@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_Expressions" name="Decision" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Decision_ExpressionAggregation" name="Expression Aggregation">
+    <extensionElements>
+      <biodi:bounds x="200" y="200" width="180" height="80" />
+    </extensionElements>
+    <decisionTable>
+      <input id="InputClause_109qcxe" label="Fullname" camunda:inputVariable="fullname">
+        <inputExpression id="LiteralExpression_19oro2p" typeRef="string">        <text>${person.firstname} ${person.surname}</text>
+</inputExpression>
+      </input>
+      <output id="output_1" label="Name" name="name" typeRef="string" />
+      <rule id="row-324022914-1">
+        <inputEntry id="UnaryTests_1ylu8pi" expressionLanguage="juel">        <text><![CDATA[fullname == "O. Hock"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0cbkoej">        <text><![CDATA["Oli Hock"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-324022914-2">
+        <inputEntry id="UnaryTests_18z16ro" expressionLanguage="juel">        <text><![CDATA[fullname == "Oli Hock"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_164mho5">        <text><![CDATA["Oliver Hock"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
