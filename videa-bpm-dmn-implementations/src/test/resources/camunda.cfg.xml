@@ -3,7 +3,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
 	<bean id="processEngineConfiguration"
 		class="org.camunda.bpm.extension.process_test_coverage.junit.rules.ProcessCoverageInMemProcessEngineConfiguration">
 		<property name="jdbcUrl" value="jdbc:h2:mem:camunda;DB_CLOSE_DELAY=1000" />
@@ -17,10 +16,14 @@
 
 		<property name="processEnginePlugins">
 			<list>
-				<bean class="org.camunda.bpm.debugger.server.EmbeddableDebugWebsocketBootstrap"></bean>
+				<bean
+					class="org.camunda.bpm.debugger.server.EmbeddableDebugWebsocketBootstrap"></bean>
 			</list>
 		</property>
+	</bean>
 
+	<bean id="thirdPartyRuleEngine"
+		class="services.videa.bpm.dmn.thirdparty.ThirdPartyRuleEngineBehavior">
 	</bean>
 
 </beans>

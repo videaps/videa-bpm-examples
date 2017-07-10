@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="1.8.1">
+  <bpmn:collaboration id="Collaboration_0xurj4h">
+    <bpmn:participant id="Participant_1oq9gk0" processRef="Process_DelegateExpression" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_DelegateExpression" name="Delegate Expression" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_0qfiz8b</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:businessRuleTask id="Task_CallDelegateExpression" name="Call Delegate Expression" camunda:delegateExpression="#{thirdPartyRuleEngine}">
+      <bpmn:incoming>SequenceFlow_01lbryd</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1jdumng</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:scriptTask id="Task_0m22cb2" name="Initialise Variables" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_0qfiz8b</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_01lbryd</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Initialise Variables";]]></bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0qfiz8b" sourceRef="StartEvent_1" targetRef="Task_0m22cb2" />
+    <bpmn:sequenceFlow id="SequenceFlow_1jdumng" sourceRef="Task_CallDelegateExpression" targetRef="Task_02wv154" />
+    <bpmn:sequenceFlow id="SequenceFlow_01lbryd" sourceRef="Task_0m22cb2" targetRef="Task_CallDelegateExpression" />
+    <bpmn:endEvent id="EndEvent_0d25uos">
+      <bpmn:incoming>SequenceFlow_06mz3bp</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_06mz3bp" sourceRef="Task_02wv154" targetRef="EndEvent_0d25uos" />
+    <bpmn:scriptTask id="Task_02wv154" name="Print Variables" scriptFormat="groovy">
+      <bpmn:incoming>SequenceFlow_1jdumng</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_06mz3bp</bpmn:outgoing>
+      <bpmn:script><![CDATA[println "Print Variables";]]></bpmn:script>
+    </bpmn:scriptTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0xurj4h">
+      <bpmndi:BPMNShape id="Participant_1oq9gk0_di" bpmnElement="Participant_1oq9gk0">
+        <dc:Bounds x="122.5" y="60" width="868.5" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="146" y="138" width="90" height="20" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0d25uos_di" bpmnElement="EndEvent_0d25uos">
+        <dc:Bounds x="914" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="887" y="142" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BusinessRuleTask_0s37ng5_di" bpmnElement="Task_CallDelegateExpression">
+        <dc:Bounds x="517" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ScriptTask_0dbvz28_di" bpmnElement="Task_0m22cb2">
+        <dc:Bounds x="305" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qfiz8b_di" bpmnElement="SequenceFlow_0qfiz8b">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="305" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="212" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1jdumng_di" bpmnElement="SequenceFlow_1jdumng">
+        <di:waypoint xsi:type="dc:Point" x="617" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="731" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="629" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_01lbryd_di" bpmnElement="SequenceFlow_01lbryd">
+        <di:waypoint xsi:type="dc:Point" x="405" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="517" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="416" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_06mz3bp_di" bpmnElement="SequenceFlow_06mz3bp">
+        <di:waypoint xsi:type="dc:Point" x="831" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="914" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="872.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ScriptTask_0zls30m_di" bpmnElement="Task_02wv154">
+        <dc:Bounds x="731" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
