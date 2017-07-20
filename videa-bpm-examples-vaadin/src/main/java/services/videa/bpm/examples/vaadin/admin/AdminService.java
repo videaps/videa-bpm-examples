@@ -18,48 +18,72 @@
 */
 package services.videa.bpm.examples.vaadin.admin;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.repository.ProcessDefinition;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.task.Task;
 
-public class AdminService {
+public class AdminService implements Serializable {
+	private static final long serialVersionUID = -7741958290104246176L;
+
 	private final Logger logger = Logger.getLogger(AdminService.class.getName());
-	
+
 	private ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
 	private RepositoryService repositoryService = processEngine.getRepositoryService();
 	private RuntimeService runtimeService = processEngine.getRuntimeService();
-	
-	public List<ProcessDefinition> fetchDeployedProcesses() {
-		logger.finest("BEGIN");
-		
+//	private TaskService taskService = processEngine.getTaskService();
+
+	public List<ProcessDefinitionModel> fetchProcessDefinitions() {
 		List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery().list();
-		
-		if(logger.isLoggable(Level.FINER)) {
-			for(ProcessDefinition processDefinition : processDefinitions) {
-				logger.finer("processDefinition=" + processDefinition);
-				logger.finer("name="+processDefinition.getName());
-				logger.finer("key=" + processDefinition.getKey());
-				logger.finer("id=" + processDefinition.getId());
-			}
+		logger.finer("processDefinitions=" + processDefinitions);
+
+		List<ProcessDefinitionModel> processDefinitionModels = new ArrayList<>();
+		for (ProcessDefinition processDefinition : processDefinitions) {
+			processDefinitionModels.add(new ProcessDefinitionModel(processDefinition.getName(),
+					processDefinition.getKey(), processDefinition.getId()));
 		}
 
-		logger.finest("END");
-		return processDefinitions;
+		return processDefinitionModels;
 	}
-	
+
 	public void startProcessInstance(String processId) {
-		logger.finest("BEGIN");
-
 		ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processId);
-		logger.finer("processInstance="+processInstance);
-
-		logger.finest("END");
+		logger.finer("processInstance=" + processInstance);
 	}
+
+	/**
+	 * 
+	 * @param processDefinitionModel
+	 * @return
+	 */
+	public List<ProcessInstanceModel> fetchProcessInstances(ProcessDefinitionModel processDefinitionModel) {
+		List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery()
+				.processDefinitionId(processDefinitionModel.getId()).active().list();
+		logger.finer("processInstances=" + processInstances);
+
+		List<ProcessInstanceModel> processInstanceModels = new ArrayList<>();
+		for (ProcessInstance processInstance : processInstances) {
+			processInstanceModels
+					.add(new ProcessInstanceModel(processInstance.getId(), processInstance.getProcessInstanceId()));
+		}
+
+		return processInstanceModels;
+	}
+
+//	public List<Task> fetchUserTasks(ProcessInstance processInstance) {
+//		List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).list();
+//		logger.finer("tasks=" + tasks);
+//
+//		return tasks;
+//	}
+
 }

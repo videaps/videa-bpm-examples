@@ -20,14 +20,21 @@ package services.videa.bpm.examples.vaadin.admin;
 
 import java.io.Serializable;
 
-public class ProcessModel implements Serializable {
-	private static final long serialVersionUID = -4464645818586051944L;
+public class ProcessDefinitionModel implements Serializable {
+	private static final long serialVersionUID = -8013508130587777694L;
 
 	private String name;
+	private String key;
+	private String id;
 
-	public ProcessModel(String name) {
+	public ProcessDefinitionModel() {
+	}
+
+	public ProcessDefinitionModel(String name, String key, String id) {
 		super();
 		this.name = name;
+		this.key = key;
+		this.id = id;
 	}
 
 	public String getName() {
@@ -36,6 +43,22 @@ public class ProcessModel implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 }

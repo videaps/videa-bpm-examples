@@ -1,0 +1,11 @@
+services\videa\bpm\examples\vaadin\SupportCaseApplication.class
+services\videa\bpm\examples\vaadin\SupportCaseServlet.class
+services\videa\bpm\examples\vaadin\admin\AdminUI.class
+services\videa\bpm\examples\vaadin\SupportCaseUI.class
+services\videa\bpm\examples\vaadin\admin\AdminService.class
+services\videa\bpm\examples\vaadin\admin\ProcessesForm.class
+services\videa\bpm\examples\vaadin\admin\ProcessInstanceModel.class
+services\videa\bpm\examples\vaadin\admin\AdminServlet.class
+services\videa\bpm\examples\vaadin\CaptureSupportCaseForm.class
+services\videa\bpm\examples\vaadin\CategoryEnum.class
+services\videa\bpm\examples\vaadin\admin\ProcessDefinitionModel.class

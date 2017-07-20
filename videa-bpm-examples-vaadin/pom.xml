@@ -147,7 +147,7 @@
 				<version>3.0.0</version>
 				<configuration>
 					<packagingExcludes>WEB-INF/classes/VAADIN/widgetsets/WEB-INF/**</packagingExcludes>
-					<outputDirectory>..\..\camunda-bpm-tomcat-7.6.0\server\apache-tomcat-8.0.24\webapps\</outputDirectory>
+					<outputDirectory>C:\Users\Oliver\Development\Tutorials\camunda-bpm-tomcat-7.6.0\server\apache-tomcat-8.0.24\webapps</outputDirectory>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
 			</plugin>

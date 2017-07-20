@@ -18,12 +18,11 @@
 */
 package services.videa.bpm.examples.vaadin.admin;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.repository.ProcessDefinition;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
@@ -36,45 +35,59 @@ public class ProcessesForm extends FormLayout {
 
 	private final Logger logger = Logger.getLogger(ProcessesForm.class.getName());
 
-	private Grid<ProcessDefinition> processGrid = new Grid<>();
+	private Grid<ProcessDefinitionModel> processDefinitionGrid = new Grid<>();
 	private Button startButton = new Button("Start");
 
+	private Grid<ProcessInstanceModel> processInstanceGrid = new Grid<>();
+	private Button updateButton = new Button("Update");
+
 	private AdminService adminService = new AdminService();
-	
+
 	public ProcessesForm() {
-		logger.finest("BEGIN");
-
 		setSizeFull();
-		
-		processGrid.setCaption("Deployed Processes");
-		processGrid.addColumn(ProcessDefinition::getName).setCaption("Name");
-		processGrid.addColumn(ProcessDefinition::getKey).setCaption("Key");
-		processGrid.addColumn(ProcessDefinition::getId).setCaption("ID");
-		processGrid.setSelectionMode(SelectionMode.SINGLE);
-		processGrid.setItems(fetchProcesses());
 
+		processDefinitionGrid.setCaption("Process Definitions");
+		processDefinitionGrid.addColumn(ProcessDefinitionModel::getName).setCaption("Name");
+		processDefinitionGrid.addColumn(ProcessDefinitionModel::getKey).setCaption("Key");
+		processDefinitionGrid.addColumn(ProcessDefinitionModel::getId).setCaption("ID");
+		processDefinitionGrid.setSelectionMode(SelectionMode.SINGLE);
+		processDefinitionGrid.setItems(adminService.fetchProcessDefinitions());
+		
 		startButton.addClickListener(event -> startProcess());
+		 
+		addComponents(processDefinitionGrid, startButton);
 
-		addComponents(processGrid, startButton);
-
-		logger.finest("END");
-	}
-
-	private Collection<ProcessDefinition> fetchProcesses() {
-		List<ProcessDefinition> processDefinitions = adminService.fetchDeployedProcesses();
-		return processDefinitions;
-	}
-
-	private void startProcess() {
-		logger.finest("BEGIN");
-
-		SingleSelectionModel<ProcessDefinition> singleSelectionModel = (SingleSelectionModel<ProcessDefinition>) processGrid
-				.getSelectionModel();
-		Optional<ProcessDefinition> optional = singleSelectionModel.getSelectedItem();
-		String processId = optional.get().getKey();
-		logger.finer("processId=" + processId);
-		adminService.startProcessInstance(processId);
+		processInstanceGrid.setCaption("Process Instances");
+		processInstanceGrid.addColumn(ProcessInstanceModel::getId).setCaption("ID");
+		processInstanceGrid.addColumn(ProcessInstanceModel::getProcessInstanceId).setCaption("Process Instance");
+		processInstanceGrid.setSelectionMode(SelectionMode.SINGLE);
 		
-		logger.finest("END");
+		updateButton.addClickListener(event -> updateProcessInstances());
+		
+		addComponents(processInstanceGrid, updateButton);
+
 	}
+
+	/*
+	 * Starts the process from selected item of grid.
+	 */
+	private void startProcess() {
+		SingleSelectionModel<ProcessDefinitionModel> processDefinitionSelection = (SingleSelectionModel<ProcessDefinitionModel>) processDefinitionGrid
+				.getSelectionModel();
+		Optional<ProcessDefinitionModel> optional = processDefinitionSelection.getSelectedItem();
+		String processId = optional.get().getKey();
+		adminService.startProcessInstance(processId);
+	}
+
+	/*
+	 * Updates the process instances by using selected process definition of
+	 * process definition grid.
+	 */
+	private void updateProcessInstances() {
+		SingleSelectionModel<ProcessDefinitionModel> processDefinitionSelection = (SingleSelectionModel<ProcessDefinitionModel>) processDefinitionGrid
+				.getSelectionModel();
+		ProcessDefinitionModel processDefinitionModel = processDefinitionSelection.getSelectedItem().get();
+		processInstanceGrid.setItems(adminService.fetchProcessInstances(processDefinitionModel));
+	}
+
 }
