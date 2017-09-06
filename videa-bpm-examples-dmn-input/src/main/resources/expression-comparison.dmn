@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_097ljmd" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Decision_ExpressionComparison" name="Expression Comparison">
+    <decisionTable id="decisionTable" hitPolicy="FIRST">
+      <input id="input1" label="Typ 1" camunda:inputVariable="">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>input1.typ</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0dqtxfw" label="Valid" camunda:inputVariable="valid">
+        <inputExpression id="LiteralExpression_11zz5vi" typeRef="string">        <text>valid</text>
+</inputExpression>
+      </input>
+      <input id="InputClause_0saleug" label="Typ 2" camunda:inputVariable="">
+        <inputExpression id="LiteralExpression_05fhoeh" typeRef="string">        <text>input2.typ</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Message" name="message" typeRef="string" />
+      <rule id="row-917126118-1">
+        <inputEntry id="UnaryTests_1wnfg6m">        <text><![CDATA[""]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0zlsve2">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0cv6qzo">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1t2zy0v">        <text><![CDATA["Rule 1 applies"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-42074952-1">
+        <description></description>
+        <inputEntry id="UnaryTests_1rwaowh">        <text><![CDATA["000"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1vbg3fw">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1dro5uq">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1a9rihc">        <text><![CDATA["Rule 2 applies"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-632775755-1">
+        <description></description>
+        <inputEntry id="UnaryTests_1ipr5rh">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1qhfkvs">        <text><![CDATA["false"]]></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_11a4iyw">        <text></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0t9vojs">        <text><![CDATA["Rule 3 applies"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-288753731-2">
+        <description></description>
+        <inputEntry id="UnaryTests_04xcun4">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0dzcnoz">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0fex9lj">        <text>input1.typ</text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1t8opgc">        <text><![CDATA["Rule 4 applies"]]></text>
+</outputEntry>
+      </rule>
+      <rule id="row-288753731-1">
+        <description></description>
+        <inputEntry id="UnaryTests_02z46we">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_0nfa6rd">        <text></text>
+</inputEntry>
+        <inputEntry id="UnaryTests_1qt3ol1">        <text><![CDATA[""]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_1rqv75e">        <text><![CDATA["Rule 5 applies"]]></text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
