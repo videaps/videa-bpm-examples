@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0pqkth0" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decisionExpressionFeelDisjunction" name="Expression Feel Disjunction">
+    <decisionTable id="decisionTable">
+      <input id="input1" label="Number" camunda:inputVariable="">
+        <inputExpression id="inputExpression1" typeRef="string">        <text>number</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Match" name="match" typeRef="boolean" />
+      <rule id="row-88020589-1">
+        <inputEntry id="UnaryTests_1r650f4">        <text><![CDATA["09", "29", "39"]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_18ku849">        <text>true</text>
+</outputEntry>
+      </rule>
+      <rule id="row-88020589-3">
+        <inputEntry id="UnaryTests_0gja4in">        <text><![CDATA[not("09", "29", "39")]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_0gxky8k">        <text>false</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

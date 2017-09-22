@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="definitions_0pqkth0" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="decisionJavascriptDate" name="Javascript Date">
+    <decisionTable id="decisionTable">
+      <input id="input1" label="Past" camunda:inputVariable="">
+        <inputExpression id="inputExpression1" typeRef="date">        <text>past</text>
+</inputExpression>
+      </input>
+      <output id="output1" label="Before" name="before" typeRef="boolean" />
+      <rule id="row-88020589-1">
+        <inputEntry id="UnaryTests_1r650f4" expressionLanguage="juel">        <text><![CDATA[${ past < now() }]]></text>
+</inputEntry>
+        <outputEntry id="LiteralExpression_18ku849">        <text>true</text>
+</outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>
